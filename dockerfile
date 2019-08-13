@@ -4,6 +4,7 @@ LABEL maintainer="Guillaume Rongier <guillaume.rongier@intersystems.com>"
 ARG link
 ARG port
 ENV _HTTPD_DIR /usr/local/apache2
+
 RUN sed -i 's,^#\(LoadModule proxy_module modules/mod_proxy.so\)$,\1,' $_HTTPD_DIR/conf/httpd.conf
 RUN sed -i 's,^#\(LoadModule proxy_http_module modules/mod_proxy_http.so\)$,\1,' $_HTTPD_DIR/conf/httpd.conf
 RUN sed -i 's,^#\(LoadModule ssl_module modules/mod_ssl.so\)$,\1,' $_HTTPD_DIR/conf/httpd.conf

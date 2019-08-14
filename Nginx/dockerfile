@@ -1,0 +1,24 @@
+FROM nginx
+LABEL maintainer="Guillaume Rongier <guillaume.rongier@intersystems.com>"
+
+# Variable
+ARG link
+ARG port
+ENV _NGINX_CONF /etc/nginx
+
+# Make self-signed certificate
+RUN mkdir -p $_NGINX_CONF/ssl
+RUN apt-get update
+RUN apt-get install openssl
+RUN openssl req -x509 -nodes -days 1 -newkey rsa:2048 -subj /CN=* -keyout $_NGINX_CONF/ssl/server.key -out $_NGINX_CONF/ssl/server.crt
+
+# Add the proxy conf
+RUN echo "server {" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "  listen 443 ssl;" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "  ssl_certificate         /etc/nginx/ssl/server.crt;" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "  ssl_certificate_key     /etc/nginx/ssl/server.key;" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "location / {" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "  proxy_pass http://$link:$port;" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "}" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "}" >> $_NGINX_CONF/conf.d/irisproxy.conf
+

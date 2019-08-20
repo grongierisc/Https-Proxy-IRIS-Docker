@@ -9,4 +9,4 @@ docker-compose up -d
 ## How it works
 The dockerfile works in 2 steps :
 * Make a self-signed certificate
-* Make the config file for the proxy
+* Make the config file for the Nginx proxy

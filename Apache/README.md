@@ -19,5 +19,5 @@ The docker-compose :
 * Configure arguments of the dockerfile
   * link of the IRIS docker
   * port of the IRIS docker
-* Load Apache
-* Load IRIS Community Edition
+* Run Apache
+* Run IRIS Community Edition

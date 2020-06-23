@@ -19,6 +19,11 @@ RUN echo "  ssl_certificate         /etc/nginx/ssl/server.crt;" >> $_NGINX_CONF/
 RUN echo "  ssl_certificate_key     /etc/nginx/ssl/server.key;" >> $_NGINX_CONF/conf.d/irisproxy.conf
 RUN echo "location / {" >> $_NGINX_CONF/conf.d/irisproxy.conf
 RUN echo "  proxy_pass http://$link:$port;" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "  proxy_redirect          off;" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "  proxy_set_header        Host            \$host;" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "  proxy_set_header        X-Real-IP       \$remote_addr;" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "  proxy_set_header        X-Forwarded-Proto \$scheme;" >> $_NGINX_CONF/conf.d/irisproxy.conf
+RUN echo "  proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for;" >> $_NGINX_CONF/conf.d/irisproxy.conf
 RUN echo "}" >> $_NGINX_CONF/conf.d/irisproxy.conf
 RUN echo "}" >> $_NGINX_CONF/conf.d/irisproxy.conf
 

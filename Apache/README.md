@@ -7,6 +7,7 @@ docker-compose up -d
 ```
 
 ## How it works
+
 The dockerfile works in 3 steps :
 * Make a self-signed certificate
 * Load modules
@@ -14,3 +15,9 @@ The dockerfile works in 3 steps :
   * For SSL
 * Make config file for the proxy
 
+The docker-compose :
+* Configure arguments of the dockerfile
+  * link of the IRIS docker
+  * port of the IRIS docker
+* Run Apache
+* Run IRIS Community Edition

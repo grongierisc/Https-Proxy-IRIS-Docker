@@ -2,8 +2,6 @@ FROM httpd
 LABEL maintainer="Guillaume Rongier <guillaume.rongier@intersystems.com>"
 
 # Varaibles
-ARG link
-ARG port
 ENV _HTTPD_DIR /usr/local/apache2
 
 # Generate self signed certificate
@@ -18,11 +16,13 @@ RUN sed -i 's,^#\(LoadModule ssl_module modules/mod_ssl.so\)$,\1,' $_HTTPD_DIR/c
 RUN sed -i 's,^#\(LoadModule socache_shmcb_module modules/mod_socache_shmcb.so\)$,\1,' $_HTTPD_DIR/conf/httpd.conf
 RUN sed -i 's,^#\(Include conf/extra/httpd-ssl.conf\)$,\1,' $_HTTPD_DIR/conf/httpd.conf
 
-# Make conf file for proxy
-RUN mkdir -p $_HTTPD_DIR/conf/other
-RUN echo 'ProxyRequests Off' > $_HTTPD_DIR/conf/other/iris.conf
-RUN echo "ProxyPass / http://$link:$port/" >> $_HTTPD_DIR/conf/other/iris.conf
-RUN echo "ProxyPassReverse / http://$link:$port/" >> $_HTTPD_DIR/conf/other/iris.conf
+#Enable CSPGateway
+COPY --from=containers.intersystems.com/intersystems/webgateway:2021.2.0.651.0 /opt/webgateway/bin/ /opt/cspgateway/bin
 
-# Add new conf file for proxy
-RUN echo 'Include conf/other/*.conf' >> $_HTTPD_DIR/conf/httpd.conf
+COPY httpd-csp.conf $_HTTPD_DIR/conf/extra
+COPY --chown=www-data:www-data CSP.ini /opt/cspgateway/bin/CSP.ini
+
+RUN echo "Include conf/extra/httpd-csp.conf" >> $_HTTPD_DIR/conf/httpd.conf \
+ && mkdir -p /opt/cspgateway/csp \ 
+ && chown -R www-data:www-data /opt/cspgateway \
+ && chgrp -R daemon $_HTTPD_DIR/conf/extra/httpd-csp.conf

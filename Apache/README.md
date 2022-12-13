@@ -2,10 +2,20 @@
 Sample of an Https proxy for Intersystems Iris
 
 ## Run
+
 ```
 docker-compose up -d
 ```
 
+## Test
+
+```
+https://localhost/csp/bin/Systems/Module.cxw
+```
+and
+```
+https://localhost/csp/sys/UtilHome.csp
+```
 ## How it works
 
 The dockerfile works in 3 steps :

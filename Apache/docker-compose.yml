@@ -13,7 +13,7 @@ services:
     - "443:443"
     volumes:
     - ./CSP.ini:/opt/webgateway/bin/CSP.ini
-    - ./httpd-csp.conf:/etc/apache2/conf/extra/httpd-csp.conf
+    - ./httpd-csp.conf:/usr/local/apache2/conf/extra/httpd-csp.conf
 
   iris:
     image: intersystemsdc/iris-community:latest

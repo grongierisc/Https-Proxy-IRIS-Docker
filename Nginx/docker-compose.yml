@@ -13,6 +13,7 @@ services:
 
   iris:
 #   image: store/intersystems/iris:2019.1.0.510.0-community
-    image: intersystemsdc/irishealth-community:2020.4.0.524.0-zpm
+    image: intersystemsdc/irishealth-community
+# :2020.4.0.524.0-zpm
     hostname: iris
 
